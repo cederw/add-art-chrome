@@ -1,19 +1,23 @@
 {
   "manifest_version": 2,
-  "name": "Add Art",
-  "description": "Replacing ads with art.",
-  "author" : "@owise1,Corey Tegeler",
+  "name": "Adangered",
+  "description": "Replacing ads with animals.",
+  "author" : "Orgin: @owise1,Corey Tegeler",
   "version": "2.2.9",
-  "homepage_url" : "http://add-art.org/",
+  "homepage_url" : "http://.org/",
   "icons": {
     "16": "images/icon-16.png",
     "32": "images/icon-32.png",
     "64": "images/icon-64.png"
   },
-  "browser_action": {
-    "default_icon": "images/icon-64.png",
-    "default_popup": "interface.html",
-    "default_title": "Add Art!"
+  "options_ui": {
+    // Required.
+    "page": "options.html",
+    // Recommended.
+    "chrome_style": true
+    // Not recommended; only provided for backwards compatibility,
+    // and will be unsupported in a future version of Chrome (TBD).
+    //"open_in_tab": true
   },
 
   "permissions": [

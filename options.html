@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Save the Adimals Options</title>
+  <style>
+    body: { padding: 20px; }
+  </style>
+</head>
+
+<body>
+  <p>
+  Frequency (How often our Ads appear)
+  </p>
+
+
+<input type="range" id="myRange" value="0" step="25">
+<p id="freq"></p>
+<p>Appearance</p>
+<form id="view">
+<input type="radio" name="view" value="textOnly"> Text Only<br>
+  <input type="radio" name="view" value="textImages" checked> Text and Images<br>
+  </form>
+<p>Conent</p>
+
+<form id ="content">
+  <input type="checkbox" name="content" value="cute" checked>Cute Animal Pictures<br>
+  <input type="checkbox" name="content" value="aware" >Conservation Awareness<br>
+  <input type="checkbox" name="content" value="donation" >Donation Opportunities<br>
+  <input type="checkbox" name="content" value="fun" >Fun Facts<br>
+</form>
+<p>Categories</p>
+
+<form id = "category">
+  <input type="checkbox" name="category" value="enviro" checked>Enviroment<br>
+  <input type="checkbox" name="category" value="Car" >Poaching<br>
+  <input type="checkbox" name="category" value="Bike">Conservation<br>
+</form>
+  
+<br>
+  <div id="status"></div>
+  <button id="save">Save</button>
+
+  <script src="options.js"></script>
+</body>
+</html>
