@@ -131,7 +131,17 @@
         //height: origH,
         position : 'relative'
       })
-  
+
+      var category = 'Poaching';
+      var type = 'Informative Facts';
+      $.ajax({
+        url : 'http://bb51f769.ngrok.io/api/getData?category=' + category + '&type=' +  type,
+        type : 'get',
+        success : function (result){
+          console.log(result);
+        }
+      });
+
       var zooAd = $("<div/>")
         .addClass("adContainer")
         .css({
