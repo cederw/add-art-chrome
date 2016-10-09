@@ -55,6 +55,7 @@ function save_options() {
 function restore_options() {
   // Use default value color = 'red' and likesColor = true.
   chrome.storage.sync.get({
+    frequency: 'red',
     appearance: 'textImages',
     content: 'Informative Facts',
     category: 'Poaching',
