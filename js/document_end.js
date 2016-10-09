@@ -17,7 +17,6 @@ jQuery(function ($){
       var ratio = 100;
 
       var found = $(selectors.join(',')).each(function (){
-        console.log("looping");
         var $this = $(this)
         var successfulSkips = skips.filter(function (sel){
                                       return $this.is(sel)
@@ -27,7 +26,6 @@ jQuery(function ($){
         }
       var origW = this.offsetWidth;
       var origH = this.offsetHeight;
-      console.log("width" + origW + "he"+ origH);
       if(origH>200 && (Math.abs(origW/origH - 0.8) < Math.abs(ratio-0.8))){
         console.log("passed the if");
         elem = this;

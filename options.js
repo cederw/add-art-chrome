@@ -13,6 +13,7 @@ function getSelectedChbox(frm) {
 
 // set selected checkboxes
 function setSelectedChbox(frm, arr) {
+  console.log(arr);
   var selchbox = arr;// array that will store the value of selected checkboxes
   // gets all the input tags in frm, and their number
   var inpfields = frm.getElementsByTagName('input');
@@ -54,10 +55,9 @@ function save_options() {
 function restore_options() {
   // Use default value color = 'red' and likesColor = true.
   chrome.storage.sync.get({
-    frequency: 'red',
     appearance: 'textImages',
-    content: 'cute',
-    category: 'enviro',
+    content: 'Informative Facts',
+    category: 'Poaching',
     on: true,
     ads: 0
   }, function(items) {

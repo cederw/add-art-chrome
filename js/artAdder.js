@@ -94,17 +94,9 @@
     });
   }
 
-  function getAdType() {
-    var frequency = document.getElementById('myRange').value;
-    console.log(appearance);
-    var category = getSelectedChbox(document.getElementById('category')) ;
-    return "Both";
-  }
-
   var artAdder = {
     replacedCount : '',
     processAdNode : function (elem) {
-      console.log("hi");
       var goodBye = false;
       if (elem.tagName !== 'IFRAME'
             && elem.tagName !== 'IMG'
@@ -133,91 +125,97 @@
         position : 'relative'
       })
 
-      var category = 'Poaching';
-      var type = 'Informative Facts';
-      var sponsorsName;
-      $.ajax({
-        url: 'https://22c08ace.ngrok.io/api/getSponsor',
-        type: 'get',
-        success : function(rst) {
-          sponsorsName = rst[0][0].sponsorsName;
-          $.ajax({
-            url : 'https://22c08ace.ngrok.io/api/getData?category=' + category + '&type=' +  type,
-            type : 'get',
-            success : function (result){
-              var adObject = result[0][0];
-              console.log(adObject);
-              var zooAd = $("<div/>")
-                .addClass("adContainer")
-                .css({
-                  width: origW,
-                  //height: origH,
-                  cursor: "pointer",
-                  border: "1px rgba(0,0,0,0.70) solid",
-                  "border-radius" : "0.25rem"
-                })
-                .click(function() {
-                  window.open(adObject.textSrc, "_blank");
-                });
+      chrome.storage.sync.get({
+        frequency: 'red',
+        appearance: 'textImages',
+        content: 'cute',
+        category: 'enviro',
+        on: true
+      }, function(items) {
+        var adType = items.appearance[0];
+        var type = items.content[0];
+        var category = items.category[0];
+        var sponsorsName = "Microsoft";
 
-              var sponsorDiv = $("<div/>").css({
-                  "padding-right" : "0.75em"
-                });
+        $.ajax({
+          url: 'https://22c08ace.ngrok.io/api/getSponsor',
+          type: 'get',
+          success : function(rst) {
+            sponsorsName = rst[0][0].sponsorsName;
+            $.ajax({
+              url : 'https://22c08ace.ngrok.io/api/getData?category=' + category + '&type=' +  type,
+              type : 'get',
+              success : function (result){
+                var adObject = result[0][0];
+                var zooAd = $("<div/>")
+                  .addClass("adContainer")
+                  .css({
+                    width: origW,
+                    //height: origH,
+                    cursor: "pointer",
+                    border: "1px rgba(0,0,0,0.70) solid",
+                    "border-radius" : "0.25rem"
+                  })
+                  .click(function() {
+                    window.open(adObject.textSrc, "_blank");
+                  });
 
-              var sponsorFormat = $('<p/>')
-                .css({
-                  color: "rgba(0,0,0,0.30)",
-                  "margin-top": 18,
-                  "margin-bottom" : 7
-                });
+                var sponsorDiv = $("<div/>").css({
+                    "padding-right" : "0.75em"
+                  });
 
-              var sponsorText = $("<p/>", {
-                  text: sponsorsName
-                }).css({
-                    color: "rgba(0,0,0,0.50)",
-                    "margin-bottom" : 18
-                });
+                var sponsorFormat = $('<p/>')
+                  .css({
+                    color: "rgba(0,0,0,0.30)",
+                    "margin-top": 18,
+                    "margin-bottom" : 7
+                  });
 
-              var adType = "Both";
-              console.log(adType);
-              switch(adType) {
-                case "Basic Text" : {
-                  createBasicText(zooAd, sponsorDiv, sponsorFormat, sponsorText, adObject);
-                  break;
-                }
+                var sponsorText = $("<p/>", {
+                    text: sponsorsName
+                  }).css({
+                      color: "rgba(0,0,0,0.50)",
+                      "margin-bottom" : 18
+                  });
+                switch(adType) {
+                  case "Basic Text" : {
+                    createBasicText(zooAd, sponsorDiv, sponsorFormat, sponsorText, adObject);
+                    break;
+                  }
 
-                case "Text" : {
-                  createText(zooAd, sponsorDiv, sponsorFormat, sponsorText, adObject);
-                  break;
-                }
+                  case "textOnly" : {
+                    createText(zooAd, sponsorDiv, sponsorFormat, sponsorText, adObject);
+                    break;
+                  }
 
-                case "Image" : {
-                  createImage(zooAd, sponsorDiv, sponsorFormat, sponsorText, origW, origH, adObject);
-                  break;
-                }
+                  case "imageOnly" : {
+                    createImage(zooAd, sponsorDiv, sponsorFormat, sponsorText, origW, origH, adObject);
+                    break;
+                  }
 
-                case "Both" : {
-                  createImage(zooAd, sponsorDiv, sponsorFormat, sponsorText, origW, origH, adObject);
-                  createText(zooAd, sponsorDiv, sponsorFormat, sponsorText, adObject);
+                  case "textImages" : {
+                    createImage(zooAd, sponsorDiv, sponsorFormat, sponsorText, origW, origH, adObject);
+                    createText(zooAd, sponsorDiv, sponsorFormat, sponsorText, adObject);
+                  }
+                  
+                  default: {
+                      break;
+                  }
                 }
                 
-                default: {
-                    break;
-                }
+                sponsorFormat.appendTo(sponsorDiv);
+                sponsorText.appendTo(sponsorDiv);
+                sponsorDiv.appendTo(zooAd)
+
+                $wrap.append(zooAd);
+                $(elem.parentElement).append($wrap);
+                $(elem).remove();
+
+                return true;
               }
-              
-              sponsorFormat.appendTo(sponsorDiv);
-              sponsorText.appendTo(sponsorDiv);
-              sponsorDiv.appendTo(zooAd)
-
-              $wrap.append(zooAd);
-              $(elem.parentElement).append($wrap);
-              $(elem).remove();
-
-              return true;
-            }
-          });
-        }
+            });
+          }
+        });
       });
     },
     
