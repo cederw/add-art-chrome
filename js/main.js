@@ -25,9 +25,10 @@ if (typeof chrome !== 'undefined') {
 
 function init(event) {
   artAdder.fetchSelectorList()
+  
   return syncDefaultList()
-  .then(artAdder.getExhibition) // have we chosen a show?
-  .then(function (exhibition) {
+  //.then(artAdder.getExhibition) // have we chosen a show?
+  //.then(function (exhibition) {
     // no, this is the first time
     /*
     if (!exhibition) {
@@ -36,13 +37,13 @@ function init(event) {
         url : 'http://add-art.org/update'
       })
     }*/
-  })
+  //})
 }
 
 // set default show list from add-art feed
 function syncDefaultList() {
   var d = Q.defer()
-  $.ajax({
+  /*$.ajax({
     url : 'https://raw.githubusercontent.com/owise1/add-art-exhibitions/master/exhibitions.json',
     dataType : 'json',
     success : function (items) {
@@ -51,6 +52,6 @@ function syncDefaultList() {
         artAdder.localSet('defaultShowData', items).then(d.resolve)
       }
     }
-  })
+  })*/
   return d.promise
 }

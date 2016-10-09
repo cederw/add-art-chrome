@@ -28,58 +28,113 @@
   var artAdder = {
     replacedCount : '',
     processAdNode : function (elem) {
-      var goodBye = false
+      var goodBye = false;
       if (elem.tagName !== 'IFRAME'
-          && elem.tagName !== 'IMG'
-          && elem.tagName !== 'DIV'
-          && elem.tagName !== 'OBJECT'
-          && elem.tagName !== 'A'
-          && elem.tagName !== 'INS'
-          ) goodBye = true
+            && elem.tagName !== 'IMG'
+            && elem.tagName !== 'DIV'
+            && elem.tagName !== 'OBJECT'
+            && elem.tagName !== 'A'
+            && elem.tagName !== 'INS'
+            ) {
+          goodBye = true;
+      }
 
-      if ($(elem).data('replaced')) goodBye = true
-      $(elem).data('replaced', true)
-      if (goodBye) return
+      if ($(elem).data('replaced')) {
+        goodBye = true;
+      }
+      $(elem).data('replaced', true);
+      if (goodBye)  {
+        return;
+      }
+      //var that = this; 
+      //var exhibition
 
-      //console.log(elem);
+      var origW = elem.offsetWidth;
+      var origH = elem.offsetHeight;
 
-        var that = this,exhibition
+      var $wrap = $('<div>').css({
+        width: origW,
+        height: origH,
+        position : 'relative'
+      })
     
-        var origW = elem.offsetWidth
-        var origH = elem.offsetHeight
+      var sampleJson = {             
+        "id": 1,
+        "text": "This is sample text",
+        "textSrc": "google.com",
+        "imgSrc": "wikipedia.com"
+      };
 
-        var $wrap = $('<div>').css({
+  
+      var zooAd = $("<div/>")
+        .addClass("adContainer")
+        .css({
           width: origW,
-          height: origH,
-          position : 'relative'
+          //height: origH,
+          cursor: "pointer",
+          border: "1px rgba(0,0,0,0.70) solid",
+          "border-radius" : "0.25rem"
         })
-      
-        var sampleJson = {             
-          "id": 1,
-          "text": "This is sample text",
-          "textSrc": "google.com",
-          "imgSrc": "wikipedia.com"
-        };
-
-        var dankMeme = $('<a/>', {
-          href : "http://dankmeme.website"
+        .click(function() {
+          window.open("http://dankmeme.website", "_blank");
         });
-        //dankMeme.href = 'http://dankmeme.website';
+
+      var adType = "Basic Text";
+
+      switch(adType) {
+        case "Basic Text" : {
+          var sponsorDiv = $("<div/>")
+            .css({
+              "text-align": "center"
+            })
+            .appendTo(zooAd);
+
+          var sponsorFormat = $('<p/>', {
+            text : "ad made possible by"
+          }).css({
+            color: "rgba(0,0,0,0.30)",
+            fontSize : 18,
+            "margin-top": 18,
+            "margin-bottom" : 12
+          })
+          .appendTo(sponsorDiv);
+      
+          var sponsorText = $("<p/>", {
+            text: "Microsoft"
+          }).css({
+              color: "rgba(0,0,0,0.50)",
+              fontSize : 24,
+              "margin-bottom" : 18
+          })
+          .appendTo(sponsorDiv);
+          break;
+        }
+        default: {
+          var adText = $('<p/>', {
+              text : "Dank Memes"
+            })
+            .appendTo(zooAd);
+
+          var adTextSrc = $('<p/>', {
+              text : "Wildheart Wildlife Foundation"
+            })
+            .appendTo(zooAd);
 
         var adImage = $('<img/>', {
-          src : "https://s-media-cache-ak0.pinimg.com/236x/eb/5c/78/eb5c78657282a7c7715939aac4553dcb.jpg"
-        }).appendTo(dankMeme);
-        
-        var sampleText = $('<p/>', {
-          text : "Dank Memes"
-        })
-        .appendTo(dankMeme);
-        
-        $wrap.append(dankMeme)
-        $(elem.parentElement).append($wrap)
-        $(elem).remove()
+            src : "https://s-media-cache-ak0.pinimg.com/236x/eb/5c/78/eb5c78657282a7c7715939aac4553dcb.jpg"
+          })
+          .width(origW)
+          .height(origH - 75)
+          .appendTo(zooAd);
+          break;
+        }
+      }
+      
+      $wrap.append(zooAd);
+      $(elem.parentElement).append($wrap);
+      $(elem).remove();
 
-      return true
+      return true;
     },
     getPieceI : function (){
       var topUrl = getParentUrl(),savedUrl,savedPieceI
