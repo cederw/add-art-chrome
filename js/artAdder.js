@@ -90,12 +90,12 @@
             .appendTo(zooAd);
 
           var sponsorFormat = $('<p/>', {
-            text : "ad made possible by"
+            text : "Thank you,"
           }).css({
             color: "rgba(0,0,0,0.30)",
             fontSize : 18,
             "margin-top": 18,
-            "margin-bottom" : 12
+            "margin-bottom" : 8
           })
           .appendTo(sponsorDiv);
       
