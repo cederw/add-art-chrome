@@ -1,17 +1,17 @@
 {
   "manifest_version": 2,
   "name": "Adonis",
-  "description": "Replacing ads with animals.",
-  "author" : "Orgin: @owise1,Corey Tegeler",
-  "version": "2.2.9",
-  "homepage_url" : "http://.org/",
+  "description": "Fund conservation causes for free",
+  "author" : "@cederw, @bn22, @wongivy, @hyoo2, @SixFingeredAmish Orgin: @owise1,Corey Tegeler",
+  "version": "1.0",
+  "homepage_url" : "https://sixfingeredamish.github.io/zoohackathon/",
   "icons": {
     "16": "images/logo.png",
     "32": "images/logo.png",
     "64": "images/logo.png"
   },
   "browser_action": {
-    "default_icon": "images/icon-32.png",
+    "default_icon": "images/logo.png",
     "default_title": "Adonis",      // optional; shown in tooltip
     "default_popup": "options.html" 
   },
