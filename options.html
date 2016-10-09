@@ -3,24 +3,84 @@
 <head>
   <title>Save the Adimals Options</title>
   <style>
-    body: { padding: 20px; }
+    body: { 
+      padding: 20px; 
+      width:500px;
+      height: 500px;
+      overflow-x:hidden;
+    }
+
+    .adChoice{
+      width: 110px;
+    }
+
+    .radioHolder{
+      display: inline-block;
+      margin-top: auto;
+      margin-bottom: auto; 
+      float: left;
+      height: 200px;
+      clear:right;
+      margin-right: 20px;
+    }
+
+    .radioHolder img{
+      display: inline-block;
+      vertical-align: middle;
+      margin: auto;
+    }
+    input{
+      margin-left: 20px;
+    }
+
+    .checkboxform{
+      float: left;
+      margin-right: 20px;
+    }
+
+    .checkboxform form{
+      margin-left: 20px;
+    }
+
+    form input[type="checkbox"],form input[type="radio"]{
+      margin-right: 5px;
+    }
   </style>
 </head>
 
-<body>
-  <p>
+<body style="width:450px">
+ <input id="onoff" type="button" value="Turn Off"> 
+<h1 style="float:right; margin-top:0px"> Adonis</h1> 
+
+  <h3>
   Frequency (How often our Ads appear)
-  </p>
+  </h3>
 
 
-<input type="range" id="myRange" value="0" step="25">
-<p id="freq"></p>
-<p>Appearance</p>
-<form id="view">
-<input type="radio" name="view" value="textOnly"> Text Only<br>
-  <input type="radio" name="view" value="textImages" checked> Text and Images<br>
+<input type="range" id="myRange" value="0" step="25" style="width:400px">
+<p style="margin-left:20px">1/Week &nbsp;&nbsp;| &nbsp;&nbsp;1/three days&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;&nbsp; 1/day&nbsp; &nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;every new website &nbsp;&nbsp;| &nbsp;&nbsp; everytime</p>
+<p id="freq" style="display:none"></p>
+<h3>Appearance</h3>
+<form id="view"><div class="radioHolder" style="margin-left: 20px;">
+
+<input type="radio" name="view" value="textOnly" >Text Only<br>
+<img class="adChoice" src="images/textOnly.jpg" style="margin-top:50px">
+</div>
+<div class="radioHolder">
+
+<input type="radio" name="view" value="imageOnly">Only Images<br>
+<img class="adChoice" src="images/imageOnly.jpg"  style="margin-top:25px">
+</div>
+<div class="radioHolder">
+
+  <input type="radio" name="view" value="textImages" checked>Text and Images<br>
+  <img class="adChoice" src="images/textImage.jpg" style="margin-top:3px">
+  </div>
   </form>
-<p>Conent</p>
+
+<div style="clear:both"></div>
+<div class="checkboxform">
+<h3>Content</h3>
 
 <form id ="content">
   <input type="checkbox" name="content" value="cute" checked>Cute Animal Pictures<br>
@@ -28,14 +88,18 @@
   <input type="checkbox" name="content" value="donation" >Donation Opportunities<br>
   <input type="checkbox" name="content" value="fun" >Fun Facts<br>
 </form>
-<p>Categories</p>
+</div>
+
+<div class="checkboxform">
+<h3>Categories</h3>
 
 <form id = "category">
   <input type="checkbox" name="category" value="enviro" checked>Enviroment<br>
   <input type="checkbox" name="category" value="Car" >Poaching<br>
   <input type="checkbox" name="category" value="Bike">Conservation<br>
 </form>
-  
+</div>
+<div style="clear:both"></div>
 <br>
   <div id="status"></div>
   <button id="save">Save</button>

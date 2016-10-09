@@ -57,17 +57,27 @@ function restore_options() {
     frequency: 'red',
     appearance: 'textImages',
     content: 'cute',
-    category: 'enviro'
+    category: 'enviro',
+    on: true
   }, function(items) {
     document.getElementById('myRange').value = items.frequency;
     setSelectedChbox( document.getElementById('view'),items.appearance);
     setSelectedChbox( document.getElementById('content'),items.content);
     setSelectedChbox( document.getElementById('category'),items.category);
+
+    if(items.on){
+    document.getElementById("onoff").value = "Turn Off";
+  } else {
+    document.getElementById("onoff").value = "Turn On";
+  }
   });
 }
 document.addEventListener('DOMContentLoaded', restore_options);
 document.getElementById('save').addEventListener('click',
     save_options);
+
+document.getElementById('onoff').addEventListener('click',
+    onOff);
 
 var myInput = document.getElementById("myRange");
 document.getElementById("freq").innerHTML = "1/week";
@@ -91,5 +101,23 @@ myInput.onchange = function(){
     }
    
     document.getElementById("freq").innerHTML = text;
+}
+
+function onOff(){
+  var button = document.getElementById("onoff");
+  var power;
+  if(button.value == "Turn Off"){
+    button.value = "Turn On";
+    power = false;
+  } else {
+    button.value = "Turn Off";
+    power = true;
+  }
+
+  chrome.storage.sync.set({
+    on: power
+  }, function() {
+    
+  });
 }
 //var x = document.getElementById("myRange").value;
