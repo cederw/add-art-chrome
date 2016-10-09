@@ -14,7 +14,7 @@
     return parentUrl;
   }
 
-  function createText(zooAd, sponsorDiv, sponsorFormat, sponsorText) {
+  function createText(zooAd, sponsorDiv, sponsorFormat, sponsorText, adObject) {
     var textDiv = $("<div/>")
       .css({
         "text-align" : "right",
@@ -24,7 +24,7 @@
       .appendTo(zooAd);
     
     var textContent = $("<p/>")
-      .text('"An elephant dies every 15 minutes."')
+      .text('"' + adObject.text + '"')
       .css({
         fontSize : "2em",
         color: "rgba(0,0,0,0.60)",
@@ -32,7 +32,7 @@
       .appendTo(textDiv);
 
     var textSrc = $("<p/>")
-      .text("Wildheart Wildlife Foundation")
+      .text(adObject.textOrg)
       .css({
         fontSize : "1.5em",
         color: "rgba(0,0,0,0.40)",
@@ -54,11 +54,11 @@
     });
   }
 
-  function createImage(zooAd, sponsorDiv, sponsorFormat, sponsorText, origW, origH) {
+  function createImage(zooAd, sponsorDiv, sponsorFormat, sponsorText, origW, origH, adObject) {
     //ratio : width 4, height 5
 
     var imgDiv = $("<img>", {
-        src : "http://www.baltana.com/files/wallpapers-2/Cute-Elephant-Images-07765.jpg"
+        src : adObject.imageSrc
       })
       .css({
         width: origW,
@@ -72,7 +72,7 @@
     });
 
     sponsorFormat
-      .text("add made possible by")
+      .text("ad made possible by")
       .css({
         fontSize : 18
       });
@@ -136,81 +136,81 @@
       var category = 'Poaching';
       var type = 'Informative Facts';
       $.ajax({
-        url : 'http://bb51f769.ngrok.io/api/getData?category=' + category + '&type=' +  type,
+        url : 'https://22c08ace.ngrok.io/api/getData?category=' + category + '&type=' +  type,
         type : 'get',
         success : function (result){
-          console.log(result);
+          var adObject = result[0][0];
+          console.log(adObject);
+          var zooAd = $("<div/>")
+            .addClass("adContainer")
+            .css({
+              width: origW,
+              //height: origH,
+              cursor: "pointer",
+              border: "1px rgba(0,0,0,0.70) solid",
+              "border-radius" : "0.25rem"
+            })
+            .click(function() {
+              window.open(adObject.textSrc, "_blank");
+            });
+
+          var sponsorDiv = $("<div/>").css({
+              "padding-right" : "0.75em"
+            });
+
+          var sponsorFormat = $('<p/>')
+            .css({
+              color: "rgba(0,0,0,0.30)",
+              "margin-top": 18,
+              "margin-bottom" : 7
+            });
+
+          var sponsorText = $("<p/>", {
+              text: "Microsoft"
+            }).css({
+                color: "rgba(0,0,0,0.50)",
+                "margin-bottom" : 18
+            });
+
+          var adType = "Both";
+          console.log(adType);
+          switch(adType) {
+            case "Basic Text" : {
+              createBasicText(zooAd, sponsorDiv, sponsorFormat, sponsorText, adObject);
+              break;
+            }
+
+            case "Text" : {
+              createText(zooAd, sponsorDiv, sponsorFormat, sponsorText, adObject);
+              break;
+            }
+
+            case "Image" : {
+              createImage(zooAd, sponsorDiv, sponsorFormat, sponsorText, origW, origH, adObject);
+              break;
+            }
+
+            case "Both" : {
+              createImage(zooAd, sponsorDiv, sponsorFormat, sponsorText, origW, origH, adObject);
+              createText(zooAd, sponsorDiv, sponsorFormat, sponsorText, adObject);
+            }
+            
+            default: {
+                break;
+            }
+          }
+          
+          sponsorFormat.appendTo(sponsorDiv);
+          sponsorText.appendTo(sponsorDiv);
+          sponsorDiv.appendTo(zooAd)
+
+          $wrap.append(zooAd);
+          $(elem.parentElement).append($wrap);
+          $(elem).remove();
+
+          return true;
         }
       });
-
-      var zooAd = $("<div/>")
-        .addClass("adContainer")
-        .css({
-          width: origW,
-          //height: origH,
-          cursor: "pointer",
-          border: "1px rgba(0,0,0,0.70) solid",
-          "border-radius" : "0.25rem"
-        })
-        .click(function() {
-          window.open("http://dankmeme.website", "_blank");
-        });
-
-      var sponsorDiv = $("<div/>").css({
-          "padding-right" : "0.75em"
-        });
-
-      var sponsorFormat = $('<p/>')
-        .css({
-          color: "rgba(0,0,0,0.30)",
-          "margin-top": 18,
-          "margin-bottom" : 7
-        });
-
-      var sponsorText = $("<p/>", {
-          text: "Microsoft"
-        }).css({
-            color: "rgba(0,0,0,0.50)",
-            "margin-bottom" : 18
-        });
-
-      var adType = "Both";
-      console.log(adType);
-      switch(adType) {
-        case "Basic Text" : {
-          createBasicText(zooAd, sponsorDiv, sponsorFormat, sponsorText);
-          break;
-        }
-
-        case "Text" : {
-          createText(zooAd, sponsorDiv, sponsorFormat, sponsorText);
-          break;
-        }
-
-        case "Image" : {
-          createImage(zooAd, sponsorDiv, sponsorFormat, sponsorText, origW, origH);
-          break;
-        }
-
-        case "Both" : {
-          createImage(zooAd, sponsorDiv, sponsorFormat, sponsorText, origW, origH);
-          createText(zooAd, sponsorDiv, sponsorFormat, sponsorText);
-        }
-        
-        default: {
-            break;
-        }
-      }
-      
-      sponsorFormat.appendTo(sponsorDiv);
-      sponsorText.appendTo(sponsorDiv);
-      sponsorDiv.appendTo(zooAd)
-
-      $wrap.append(zooAd);
-      $(elem.parentElement).append($wrap);
-      $(elem).remove();
-
-      return true;
     },
     
     // abstract storage for different browsers
