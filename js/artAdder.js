@@ -104,6 +104,7 @@
   var artAdder = {
     replacedCount : '',
     processAdNode : function (elem) {
+      console.log("hi");
       var goodBye = false;
       if (elem.tagName !== 'IFRAME'
             && elem.tagName !== 'IMG'

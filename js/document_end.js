@@ -13,8 +13,11 @@ jQuery(function ($){
     }
     ;(function checkIFrames() {
       
-      
+      var elem;
+      var ratio = 100;
+
       var found = $(selectors.join(',')).each(function (){
+        console.log("looping");
         var $this = $(this)
         var successfulSkips = skips.filter(function (sel){
                                       return $this.is(sel)
@@ -22,11 +25,18 @@ jQuery(function ($){
         if (successfulSkips.length > 0) {
           return
         }
-    
-        artAdder.processAdNode(this);
+      var origW = this.offsetWidth;
+      var origH = this.offsetHeight;
+      console.log("width" + origW + "he"+ origH);
+      if(origH>200 && (Math.abs(origW/origH - 0.8) < Math.abs(ratio-0.8))){
+        console.log("passed the if");
+        elem = this;
+        ratio = origW/origH;
+      }
+        //artAdder.processAdNode(this);
       })
 
-     // artAdder.processAdNode(elem);
+      artAdder.processAdNode(elem);
       if (++tried < howMany) {
         setTimeout(checkIFrames, 3000)
       }
