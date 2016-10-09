@@ -56,13 +56,13 @@
 
   function createImage(zooAd, sponsorDiv, sponsorFormat, sponsorText, origW, origH, adObject) {
     //ratio : width 4, height 5
-
-    var imgDiv = $("<img>", {
-        src : adObject.imageSrc
-      })
+    var imgDiv = $("<div/>")
       .css({
         width: origW,
         height: origW,
+        "max-height" : 300,
+        "background-image" : "url(" + adObject.imageSrc + ")",
+        "background-size" : "cover",
         "-webkit-filter" : "grayscale(1)" /* Google Chrome, Safari 6+ & Opera 15+ */
       })
       .appendTo(zooAd);
