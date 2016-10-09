@@ -60,29 +60,84 @@
           window.open("http://dankmeme.website", "_blank");
         });
 
-      var sponsorDiv = $("<div/>")
-        .css({
-          "text-align": "right"
-        })
-        .appendTo(zooAd);
-      var adType = "Basic Text";
+      var textDiv;;
+      var textContent;
+      var textSrc;
+
+      var sponsorDiv = $("<div/>").css({
+          "padding-right" : "0.75em"
+        });
 
       var sponsorFormat = $('<p/>')
         .css({
           color: "rgba(0,0,0,0.30)",
-          fontSize : 18,
           "margin-top": 18,
-          "margin-bottom" : 8
+          "margin-bottom" : 7
         });
 
+      var sponsorText = $("<p/>", {
+          text: "Microsoft"
+        }).css({
+            color: "rgba(0,0,0,0.50)",
+            "margin-bottom" : 18
+        });
+
+      var adType = "Text";
       switch(adType) {
         case "Basic Text" : {
-          sponsorFormat.text("Thank you,");
+          sponsorDiv.css({
+            "text-align" : "center"
+          });
+
+          sponsorFormat
+            .text("Thank you,")
+            .css({
+              fontSize : 18
+            });
+          
+          sponsorText.css({
+            fontSize : 24
+          });
           break;
         }
 
         case "Text" : {
+          textDiv = $("<div/>")
+            .css({
+              "text-align" : "right",
+              "padding-top" : "1em"
+            })
+            .appendTo(zooAd);
           
+          textContent = $("<p/>")
+            .text('"An elephant dies every 15 minutes"')
+            .css({
+              fontSize : 30,
+              color: "rgba(0,0,0,0.60)",
+            })
+            .appendTo(textDiv);
+
+          textSrc = $("<p/>")
+            .text("Wildheart Wildlife Foundation")
+            .css({
+              fontSize : 16,
+              color: "rgba(0,0,0,0.40)",
+            })
+            .appendTo(textDiv);
+
+          sponsorDiv.css({
+            "text-align" : "right"
+          });
+
+          sponsorFormat
+            .text("ad made possible by,")
+            .css({
+              fontSize : 14
+            });
+
+          sponsorText.css({
+            fontSize : 16
+          });
           break;
         }
 
@@ -107,16 +162,10 @@
         }
       }
       
-     
       sponsorFormat.appendTo(sponsorDiv);
-      var sponsorText = $("<p/>", {
-          text: "Microsoft"
-        }).css({
-            color: "rgba(0,0,0,0.50)",
-            fontSize : 24,
-            "margin-bottom" : 18
-        })
-        .appendTo(sponsorDiv);
+      sponsorText.appendTo(sponsorDiv);
+      sponsorDiv.appendTo(zooAd)
+
       $wrap.append(zooAd);
       $(elem.parentElement).append($wrap);
       $(elem).remove();
