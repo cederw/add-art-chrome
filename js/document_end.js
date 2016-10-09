@@ -28,15 +28,27 @@ jQuery(function ($){
       var origW = this.offsetWidth;
       var origH = this.offsetHeight;
       console.log("width" + origW + "he"+ origH);
-      if(origH>200 && (Math.abs(origW/origH - 0.8) < Math.abs(ratio-0.8))){
+      if(origW<800 && origH>200 && (Math.abs(origW/origH - 0.8) < Math.abs(ratio-0.8))){
         console.log("passed the if");
         elem = this;
         ratio = origW/origH;
       }
         //artAdder.processAdNode(this);
       })
-
+      
       artAdder.processAdNode(elem);
+
+      chrome.storage.sync.get({
+        ads: 0
+
+      }, function(items) {
+        chrome.storage.sync.set({
+          ads: items.ads+1
+        }, function() {
+         
+        });
+      });
+
       if (++tried < howMany) {
         setTimeout(checkIFrames, 3000)
       }

@@ -58,12 +58,14 @@ function restore_options() {
     appearance: 'textImages',
     content: 'cute',
     category: 'enviro',
-    on: true
+    on: true,
+    ads: 0
   }, function(items) {
     document.getElementById('myRange').value = items.frequency;
     setSelectedChbox( document.getElementById('view'),items.appearance);
     setSelectedChbox( document.getElementById('content'),items.content);
     setSelectedChbox( document.getElementById('category'),items.category);
+    document.getElementById('earn').innerHTML = "You have helped donate: " +items.ads*5 + " cents!";
 
     if(items.on){
     document.getElementById("onoff").value = "Turn Off";
