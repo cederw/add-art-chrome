@@ -138,12 +138,12 @@
         var sponsorsName = "Microsoft";
 
         $.ajax({
-          url: 'https://22c08ace.ngrok.io/api/getSponsor',
+          url: 'https://26330fda.ngrok.io/api/getSponsor',
           type: 'get',
           success : function(rst) {
             sponsorsName = rst[0][0].sponsorsName;
             $.ajax({
-              url : 'https://22c08ace.ngrok.io/api/getData?category=' + category + '&type=' +  type,
+              url : 'https://26330fda.ngrok.io/api/getData?category=' + category + '&type=' +  type,
               type : 'get',
               success : function (result){
                 var adObject = result[0][0];
