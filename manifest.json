@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Adonis",
-  "description": "Fund conservation causes for free",
+  "description": "Fund conservation causes for free.",
   "author" : "@cederw, @bn22, @wongivy, @hyoo2, @SixFingeredAmish Orgin: @owise1,Corey Tegeler",
   "version": "1.0",
   "homepage_url" : "https://sixfingeredamish.github.io/zoohackathon/",
