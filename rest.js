@@ -15,8 +15,8 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5) {
     });
 
     router.post('/addData', function(req, res) {
-        var sql = 'INSERT INTO ad(??, ??, ??) Values(?, ?, ?)';
-        var params = ['text', 'textSrc', 'imageSrc', req.query.text, req.query.textSrc, req.query.imageSrc];
+        var sql = 'INSERT INTO ad(??, ??, ??, ??) Values(?, ?, ?, ?)';
+        var params = ['text', 'textSrc', 'imageSrc', 'textOrg', req.query.text, req.query.textSrc, req.query.imageSrc, req.query.textOrg];
         connection.query(sql, params, function(err, results) {
             if(!err) {
                 res.json({ 'Result': 'Data Successfully Added' });
