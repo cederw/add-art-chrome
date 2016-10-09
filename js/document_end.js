@@ -12,6 +12,9 @@ jQuery(function ($){
         .map(R.nth(1))
     }
     ;(function checkIFrames() {
+      var elem;
+      var ratio = 0; //h/w
+      
       var found = $(selectors.join(',')).each(function (){
         var $this = $(this)
         var successfulSkips = skips.filter(function (sel){
@@ -20,8 +23,15 @@ jQuery(function ($){
         if (successfulSkips.length > 0) {
           return
         }
-        artAdder.processAdNode(this)
+        var origW = elem.offsetWidth;
+        var origH = elem.offsetHeight;
+        if(Math.abs(origW/origH - 0.75) < Math.abs(ratio - 0.75)){
+
+        }
+        //artAdder.processAdNode(this)
       })
+
+      artAdder.processAdNode(elem);
       if (++tried < howMany) {
         setTimeout(checkIFrames, 3000)
       }
