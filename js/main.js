@@ -29,12 +29,13 @@ function init(event) {
   .then(artAdder.getExhibition) // have we chosen a show?
   .then(function (exhibition) {
     // no, this is the first time
+    /*
     if (!exhibition) {
       artAdder.chooseMostRecentExhibition()
       chrome.tabs.create({
         url : 'http://add-art.org/update'
       })
-    }
+    }*/
   })
 }
 

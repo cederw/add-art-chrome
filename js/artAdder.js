@@ -28,10 +28,7 @@
   var artAdder = {
     replacedCount : '',
     processAdNode : function (elem) {
-
-       var goodBye = false
-      //if (elem.offsetWidth < 2) goodBye = true
-      //if (elem.offsetHeight < 2) goodBye = true
+      var goodBye = false
       if (elem.tagName !== 'IFRAME'
           && elem.tagName !== 'IMG'
           && elem.tagName !== 'DIV'
@@ -44,97 +41,44 @@
       $(elem).data('replaced', true)
       if (goodBye) return
 
-      console.log(elem);
+      //console.log(elem);
 
-      var that = this,exhibition
-
-      artAdder.getExhibitionObj()
-      .then(function (ex) {
-        exhibition = ex
-        return artAdder.getPieceI()
-      })
-      .then(function (pieceI) {
+        var that = this,exhibition
+    
         var origW = elem.offsetWidth
         var origH = elem.offsetHeight
-        var piece = exhibition.works[pieceI]
 
         var $wrap = $('<div>').css({
           width: origW,
           height: origH,
           position : 'relative'
         })
-        var art  = document.createElement('a')
-        art.href = pieceLink(piece) || exhibition.link || 'http://addendum.kadist.org'
-        art.title = piece.title || exhibition.title + ' | replaced by Addendum'
-        art.target = '_blank'
-        art.style.width = origW + 'px'
-        art.style.height = origH + 'px'
-        art.style.display = 'block'
-        art.style.position = 'absolute'
-        art.style.zIndex = 100
-        art.style.background = "url(" + piece.image + ")"
-        art.style.backgroundSize = "cover"
-        art.style.backgroundPosition = "left " + ['top', 'bottom', 'center'][( Math.floor(Math.random() * 3) )]
-        art.style.backgroundRepeat = "no-repeat"
+      
+        var sampleJson = {             
+          "id": 1,
+          "text": "This is sample text",
+          "textSrc": "google.com",
+          "imgSrc": "wikipedia.com"
+        };
 
-        $wrap.append(art)
+        var dankMeme = $('<a/>', {
+          href : "http://dankmeme.website"
+        });
+        //dankMeme.href = 'http://dankmeme.website';
+
+        var adImage = $('<img/>', {
+          src : "https://s-media-cache-ak0.pinimg.com/236x/eb/5c/78/eb5c78657282a7c7715939aac4553dcb.jpg"
+        }).appendTo(dankMeme);
+        
+        var sampleText = $('<p/>', {
+          text : "Dank Memes"
+        })
+        .appendTo(dankMeme);
+        
+        $wrap.append(dankMeme)
         $(elem.parentElement).append($wrap)
         $(elem).remove()
-      })
 
-
-
-    /*
-
-        var $wrap = $('<div>').css({
-          width: origW,
-          height: origH,
-          position : 'relative',
-          perspective : '1000px'
-        })
-        var $inner = $('<div>').css({
-          width: '100%',
-          height : '100%',
-          position : 'absolute',
-          transformStyle : 'preserve-3d',
-          transform : 'translateZ(-'+(Math.ceil(origH/2))+'px)',
-          transition : 'transform 0.5s'
-        })
-
-        var art  = document.createElement('a')
-        art.href = exhibition.info.link 
-        art.title = 'Replaced by Add-Art'
-        art.style.width = ( origW - 4 ) + 'px'
-        art.style.height = ( origH - 4 ) + 'px'
-        art.style.display = 'block'
-        art.style.position = 'absolute'
-        art.style.background = "url(" + getImgSrc(exhibition.entries, bestSize[0], bestSize[1])  + ")"
-        art.style.backgroundSize = "cover"
-        art.style.backgroundRepeat = "no-repeat"
-        art.style.webkitTransform = "rotateX(-90deg) translateZ("+Math.ceil(origH/2)+"px)"
-
-        elem.style.webkitTransform = 'rotateY(0deg) translateZ('+(Math.ceil(origH/2))+'px)'
-        elem.style.width = origW + 'px'
-        elem.style.height = origH + 'px'
-        elem.style.display = 'block'
-        elem.style.position = 'absolute'
-
-        var clone = $(elem).clone()
-        $inner.append(art).append(clone)
-        $wrap.append($inner)
-        $(elem.parentElement).append($wrap)
-
-        // rotate it
-        setTimeout(function () {
-          $inner.css('transform', "translateZ(-"+(Math.ceil(origH/2))+"px) rotateX(90deg)")
-            setTimeout(function () {
-              $(elem).remove()
-              clone.remove()
-            }, 500)
-        }, 50)
-
-      })
-      */
       return true
     },
     getPieceI : function (){
