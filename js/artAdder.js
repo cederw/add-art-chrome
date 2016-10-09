@@ -1,13 +1,8 @@
 (function() {
-
   'use strict';
 
   /******************************************************************************/
-
-
-
   var currentExhibition;
-
 
   function getParentUrl() {
     var isInIframe = (parent !== window),
@@ -42,8 +37,6 @@
       if (goodBye)  {
         return;
       }
-      //var that = this; 
-      //var exhibition
 
       var origW = elem.offsetWidth;
       var origH = elem.offsetHeight;
@@ -53,14 +46,6 @@
         height: origH,
         position : 'relative'
       })
-    
-      var sampleJson = {             
-        "id": 1,
-        "text": "This is sample text",
-        "textSrc": "google.com",
-        "imgSrc": "wikipedia.com"
-      };
-
   
       var zooAd = $("<div/>")
         .addClass("adContainer")
@@ -75,57 +60,63 @@
           window.open("http://dankmeme.website", "_blank");
         });
 
+      var sponsorDiv = $("<div/>")
+        .css({
+          "text-align": "center"
+        })
+        .appendTo(zooAd);
       var adType = "Basic Text";
+
+      var sponsorFormat = $('<p/>')
+        .css({
+          color: "rgba(0,0,0,0.30)",
+          fontSize : 18,
+          "margin-top": 18,
+          "margin-bottom" : 8
+        });
 
       switch(adType) {
         case "Basic Text" : {
-          var sponsorDiv = $("<div/>")
-            .css({
-              "text-align": "center"
-            })
-            .appendTo(zooAd);
-
-          var sponsorFormat = $('<p/>', {
-            text : "ad made possible by"
-          }).css({
-            color: "rgba(0,0,0,0.30)",
-            fontSize : 18,
-            "margin-top": 18,
-            "margin-bottom" : 12
-          })
-          .appendTo(sponsorDiv);
-      
-          var sponsorText = $("<p/>", {
-            text: "Microsoft"
-          }).css({
-              color: "rgba(0,0,0,0.50)",
-              fontSize : 24,
-              "margin-bottom" : 18
-          })
-          .appendTo(sponsorDiv);
+          sponsorFormat.text("Thank you,");
           break;
         }
+
+        case "Text" : {
+          
+          break;
+        }
+
         default: {
           var adText = $('<p/>', {
-              text : "Dank Memes"
-            })
-            .appendTo(zooAd);
+                text : "Dank Memes"
+              })
+              .appendTo(zooAd);
 
-          var adTextSrc = $('<p/>', {
-              text : "Wildheart Wildlife Foundation"
-            })
-            .appendTo(zooAd);
+            var adTextSrc = $('<p/>', {
+                text : "Wildheart Wildlife Foundation"
+              })
+              .appendTo(zooAd);
 
-        var adImage = $('<img/>', {
-            src : "https://s-media-cache-ak0.pinimg.com/236x/eb/5c/78/eb5c78657282a7c7715939aac4553dcb.jpg"
-          })
-          .width(origW)
-          .height(origH - 75)
-          .appendTo(zooAd);
-          break;
+          var adImage = $('<img/>', {
+              src : "https://s-media-cache-ak0.pinimg.com/236x/eb/5c/78/eb5c78657282a7c7715939aac4553dcb.jpg"
+            })
+            .width(origW)
+            .height(origH - 75)
+            .appendTo(zooAd);
+            break;
         }
       }
       
+     
+      sponsorFormat.appendTo(sponsorDiv);
+      var sponsorText = $("<p/>", {
+          text: "Microsoft"
+        }).css({
+            color: "rgba(0,0,0,0.50)",
+            fontSize : 24,
+            "margin-bottom" : 18
+        })
+        .appendTo(sponsorDiv);
       $wrap.append(zooAd);
       $(elem.parentElement).append($wrap);
       $(elem).remove();
