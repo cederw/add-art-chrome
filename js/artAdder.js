@@ -136,107 +136,7 @@
 
       return true;
     },
-    getPieceI : function (){
-      var topUrl = getParentUrl(),savedUrl,savedPieceI
-      var d = Q.defer()
-      artAdder.localGet('url')
-      .then(function (url){
-        savedUrl = url && url.url
-        return artAdder.localGet('pieceI')
-      })
-      .then(function (pieceI) {
-        savedPieceI = pieceI && pieceI.pieceI
-        return artAdder.getExhibitionObj()
-      })
-      .then(function (ex){
-        var pieceI = savedPieceI || 0
-        if (!savedUrl) artAdder.localSet('url', topUrl)
-        if (savedUrl === topUrl) return d.resolve(pieceI)
-
-        // there's no pieceI - choose 0 
-        if (!savedPieceI && savedPieceI !== 0) {
-          artAdder.localSet('pieceI', pieceI)
-          return d.resolve(pieceI)
-        }
-
-       // a new url
-       pieceI++
-       if (pieceI > ex.works.length - 1) {
-         pieceI = 0
-       }
-       artAdder.localSet('url', topUrl)
-       artAdder.localSet('pieceI', pieceI)
-       return d.resolve(pieceI)
-      }).done()
-      return d.promise
-    },
-    exhibition : function (name) {
-      return artAdder.setExhibition(name)
-    },
-    setExhibition : function (exhibition) {
-      currentExhibition = Q(exhibition)
-      artAdder.localSet('exhibitionUpdated', Date.now())
-      return artAdder.localSet('exhibition', exhibition)
-    },
-    getExhibition : function () {
-      if (currentExhibition) return currentExhibition
-      var d = Q.defer()
-      artAdder.localGet('exhibition')
-      .then(function (exhibition) {
-        currentExhibition = Q(exhibition.exhibition)
-        d.resolve(exhibition.exhibition)
-      })
-      return d.promise
-    },
-    getExhibitionObj : function (){
-      var exhibitions
-      return artAdder.getAllExhibitions()
-      .then(function (all){
-        exhibitions = all
-        return artAdder.getExhibition()
-      })
-      .then(function (title){
-        return R.find(R.propEq('title', title), exhibitions)
-      })
-    },
-    chooseMostRecentExhibition : function () {
-      artAdder.localGet('defaultShowData')
-      .then(function (feeds) {
-        var latest = feeds.defaultShowData[0].title
-        artAdder.exhibition(latest)
-      })
-    },
-    getCustomExhibitions : function (){
-      var d = Q.defer()
-      artAdder.localGet('customExhibitions')
-      .then( function (obj){
-        var customExhibitions = obj['customExhibitions'] || []
-        d.resolve(customExhibitions.filter(function (e){ return e  })) // get rid of blanks 
-      })
-      return d.promise
-    },
-    getAllExhibitions : function () {
-      var d = Q.defer()
-      var exhibs = []
-      artAdder.localGet('defaultShowData')
-      .then(function (obj){
-        exhibs = R.map(artAdder.addPropToObj('addendum', true), exhibs.concat(obj.defaultShowData))
-        return artAdder.getCustomExhibitions()
-      })
-      .then(function (customExhibitions){
-        d.resolve(exhibs.concat(customExhibitions).sort(artAdder.exhibitionsSort)) 
-      })
-      .done()
-      return d.promise
-    },
-    addExhibition : function (customExhibition){
-      return artAdder.getCustomExhibitions()
-      .then( function (customExhibitions){
-        customExhibitions.push(customExhibition)
-        customExhibitions = R.uniq(customExhibitions)
-        return artAdder.localSet('customExhibitions', customExhibitions)
-      })
-    },
+    
     // abstract storage for different browsers
     localSet : function (key, thing) {
       var d = Q.defer()
@@ -285,32 +185,7 @@
       .then(function (obj) {
         return obj.selectors
       })
-    },
-    formatDate : function (t){
-      var dateObj = new Date(parseInt(t))
-      var months = ["January","February","March","April","May","June","July","August","September","October","November","December"]
-      var day = dateObj.getDate()
-      var month = months[dateObj.getMonth()]
-      var year = dateObj.getUTCFullYear()
-      var date = month + ' ' + day + ', ' + year
-      return date
-    },
-    verifyExhibition : function (exhib){
-      return ['artist','description','title','thumbnail','works'].reduce(function (prev, curr){
-        if (!prev) return prev
-        return exhib[curr] !== undefined
-      }, true)
-    },
-    exhibitionsSort : function (a,b) {
-      if (a.date > b.date) return -1
-      if (a.date < b.date) return 1
-      return 0
-    },
-    addPropToObj : R.curry(function (prop, fn){
-      return function (obj) {
-        return R.set(R.lensProp(prop), typeof fn === 'function' ? fn(obj) : fn, R.clone(obj))
-      }
-    })
+    }
 
   }
 
