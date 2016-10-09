@@ -28,7 +28,7 @@ CREATE TABLE `ad` (
   `textSrc` varchar(135) DEFAULT NULL,
   `imageSrc` varchar(135) DEFAULT NULL,
   PRIMARY KEY (`adID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +37,7 @@ CREATE TABLE `ad` (
 
 LOCK TABLES `ad` WRITE;
 /*!40000 ALTER TABLE `ad` DISABLE KEYS */;
-INSERT INTO `ad` VALUES (1,'25,000 -35,000 elephants are killed yearly','http://www.independent.co.uk/voices/iv-drip/10-things-you-need-to-know-about-elephant-poaching-8983276.html','http://animals.nationalgeographic.com/animals/photos/elephants/#/african-elephant-image_5825_600x450.jpg');
+INSERT INTO `ad` VALUES (1,'25,000 -35,000 elephants are killed yearly','http://www.independent.co.uk/voices/iv-drip/10-things-you-need-to-know-about-elephant-poaching-8983276.html','http://animals.nationalgeographic.com/animals/photos/elephants/#/african-elephant-image_5825_600x450.jpg'),(2,'There are More Tigers in American Backyards Than in the Wild','http://www.onegreenplanet.org/environment/shocking-facts-about-how-the-illegal-wildlife-trade-drives-species-extinction/','http://cdn.onegreenplanet.org/wp-content/uploads/2010/10/2014/12/PhotoFact_21.jpg'),(3,'Three Rhinos are Poached Everyday','http://www.onegreenplanet.org/environment/shocking-facts-about-how-the-illegal-wildlife-trade-drives-species-extinction/','http://cdn.onegreenplanet.org/wp-content/uploads/2010/10/2014/12/PhotoFact_31.jpg');
 /*!40000 ALTER TABLE `ad` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -53,7 +53,7 @@ CREATE TABLE `ad_category` (
   `categoryID` int(11) DEFAULT NULL,
   `adID` int(11) DEFAULT NULL,
   PRIMARY KEY (`adCategoryID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -62,6 +62,7 @@ CREATE TABLE `ad_category` (
 
 LOCK TABLES `ad_category` WRITE;
 /*!40000 ALTER TABLE `ad_category` DISABLE KEYS */;
+INSERT INTO `ad_category` VALUES (1,3,1),(2,5,1),(3,3,2),(4,5,2),(5,3,3),(6,5,3);
 /*!40000 ALTER TABLE `ad_category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -77,7 +78,7 @@ CREATE TABLE `ad_type` (
   `adID` int(11) DEFAULT NULL,
   `typeID` int(11) DEFAULT NULL,
   PRIMARY KEY (`adTypeID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -86,6 +87,7 @@ CREATE TABLE `ad_type` (
 
 LOCK TABLES `ad_type` WRITE;
 /*!40000 ALTER TABLE `ad_type` DISABLE KEYS */;
+INSERT INTO `ad_type` VALUES (1,1,2),(2,2,2),(3,3,2);
 /*!40000 ALTER TABLE `ad_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -124,7 +126,7 @@ CREATE TABLE `sponsors` (
   `sponsorsID` int(11) NOT NULL AUTO_INCREMENT,
   `sponsorsName` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`sponsorsID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -133,6 +135,7 @@ CREATE TABLE `sponsors` (
 
 LOCK TABLES `sponsors` WRITE;
 /*!40000 ALTER TABLE `sponsors` DISABLE KEYS */;
+INSERT INTO `sponsors` VALUES (1,'Microsoft'),(2,'Google'),(3,'Nike'),(4,'Amazon'),(5,'Facebook'),(6,'AT&T');
 /*!40000 ALTER TABLE `sponsors` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -178,13 +181,15 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getData`(
     passedType varchar(50)
 )
 BEGIN
-	SELECT * FROM ad AD
+	SELECT ad.imageSrc, ad.text, ad.textSrc FROM ad AD
     JOIN ad_category AD_CAT ON AD_CAT.adID = AD.adID
     JOIN category CAT ON CAT.categoryID = AD_CAT.categoryID
     JOIN ad_type AD_TYPE ON AD_TYPE.adID = AD.adID
     JOIN type_table TYPE_T ON TYPE_T.typeID = AD_TYPE.typeID
     WHERE CAT.categoryName = passedCategory 
-    AND TYPE_T.typeName = passedType;
+    AND TYPE_T.typeName = passedType
+    Order by rand()
+    Limit 1;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -201,4 +206,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-10-08 22:05:10
+-- Dump completed on 2016-10-08 23:08:21

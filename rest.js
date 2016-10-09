@@ -5,14 +5,14 @@ function REST_ROUTER(router,connection,md5) {
 
 REST_ROUTER.prototype.handleRoutes= function(router,connection,md5) {
     router.get('/getData', function(req, res) {
-    	var sql = 'Select * FROM ad';
-    	connection.query(sql, function(err, results) {
-    		if (results.RowDataPacket = null) {
-    			res.json({"Error" : "Error Receiving Response"});
-    		} else {
-    			res.json(results);
-    		}
-    	});
+        var sql = 'CALL getData(?, ?)';
+        var params = [req.query.category, req.query.type]
+        connection.query(sql, params, function(err, results) {
+            console.log(results);
+            if(!err) {
+                res.json(results);
+            }
+        });
     });
 }
 
