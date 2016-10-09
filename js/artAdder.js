@@ -66,7 +66,7 @@
 
       var sponsorDiv = $("<div/>")
         .css({
-          "text-align": "center"
+          "text-align": "right"
         })
         .appendTo(zooAd);
       var adType = "Basic Text";
