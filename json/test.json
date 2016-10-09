@@ -1,0 +1,14 @@
+{
+	"size": 20,
+	"ADS": [{
+		"id": 1,
+		"text": "This is sample text",
+		"textSrc": "google.com",
+		"imgSrc": "wikipedia.com"
+	}, {
+		"id": 2,
+		"text": "This is sample text 2",
+		"textSrc": "google.com",
+		"imgSrc": "wikipedia.com"
+	}]
+}
