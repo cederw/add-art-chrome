@@ -14,7 +14,92 @@
     return parentUrl;
   }
 
+  function createText(zooAd, sponsorDiv, sponsorFormat, sponsorText) {
+    var textDiv = $("<div/>")
+      .css({
+        "text-align" : "right",
+        "padding-top" : "1em",
+        "padding-right" : "1em"
+      })
+      .appendTo(zooAd);
+    
+    var textContent = $("<p/>")
+      .text('"An elephant dies every 15 minutes."')
+      .css({
+        fontSize : "2em",
+        color: "rgba(0,0,0,0.60)",
+      })
+      .appendTo(textDiv);
 
+    var textSrc = $("<p/>")
+      .text("Wildheart Wildlife Foundation")
+      .css({
+        fontSize : "1.5em",
+        color: "rgba(0,0,0,0.40)",
+      })
+      .appendTo(textDiv);
+
+    sponsorDiv.css({
+      "text-align" : "right"
+    });
+
+    sponsorFormat
+      .text("ad made possible by")
+      .css({
+        fontSize : "1.25em"
+      });
+
+    sponsorText.css({
+      fontSize : "1.5em"
+    });
+  }
+
+  function createImage(zooAd, sponsorDiv, sponsorFormat, sponsorText, origW, origH) {
+    //ratio : width 4, height 5
+
+    var imgDiv = $("<img>", {
+        src : "http://www.baltana.com/files/wallpapers-2/Cute-Elephant-Images-07765.jpg"
+      })
+      .css({
+        width: origW,
+        height: origW,
+        "-webkit-filter" : "grayscale(1)" /* Google Chrome, Safari 6+ & Opera 15+ */
+      })
+      .appendTo(zooAd);
+      
+    sponsorDiv.css({
+      "text-align" : "right"
+    });
+
+    sponsorFormat
+      .text("add made possible by")
+      .css({
+        fontSize : 18
+      });
+  }
+
+  function createBasicText(zooAd, sponsorDiv, sponsorFormat, sponsorText) {
+    sponsorDiv.css({
+      "text-align" : "center"
+    });
+
+    sponsorFormat
+      .text("Thank you,")
+      .css({
+        fontSize : 18
+      });
+    
+    sponsorText.css({
+      fontSize : 24
+    });
+  }
+
+  function getAdType() {
+    var frequency = document.getElementById('myRange').value;
+    console.log(appearance);
+    var category = getSelectedChbox(document.getElementById('category')) ;
+    return "Both";
+  }
 
   var artAdder = {
     replacedCount : '',
@@ -42,8 +127,8 @@
       var origH = elem.offsetHeight;
 
       var $wrap = $('<div>').css({
-        width: origW,
-        height: origH,
+        //width: origW,
+        //height: origH,
         position : 'relative'
       })
   
@@ -59,10 +144,6 @@
         .click(function() {
           window.open("http://dankmeme.website", "_blank");
         });
-
-      var textDiv;;
-      var textContent;
-      var textSrc;
 
       var sponsorDiv = $("<div/>").css({
           "padding-right" : "0.75em"
@@ -82,82 +163,30 @@
             "margin-bottom" : 18
         });
 
-      var adType = "Text";
+      var adType = "Both";
+      console.log(adType);
       switch(adType) {
         case "Basic Text" : {
-          sponsorDiv.css({
-            "text-align" : "center"
-          });
-
-          sponsorFormat
-            .text("Thank you,")
-            .css({
-              fontSize : 18
-            });
-          
-          sponsorText.css({
-            fontSize : 24
-          });
+          createBasicText(zooAd, sponsorDiv, sponsorFormat, sponsorText);
           break;
         }
 
         case "Text" : {
-          textDiv = $("<div/>")
-            .css({
-              "text-align" : "right",
-              "padding-top" : "1em"
-            })
-            .appendTo(zooAd);
-          
-          textContent = $("<p/>")
-            .text('"An elephant dies every 15 minutes"')
-            .css({
-              fontSize : 30,
-              color: "rgba(0,0,0,0.60)",
-            })
-            .appendTo(textDiv);
-
-          textSrc = $("<p/>")
-            .text("Wildheart Wildlife Foundation")
-            .css({
-              fontSize : 16,
-              color: "rgba(0,0,0,0.40)",
-            })
-            .appendTo(textDiv);
-
-          sponsorDiv.css({
-            "text-align" : "right"
-          });
-
-          sponsorFormat
-            .text("ad made possible by,")
-            .css({
-              fontSize : 14
-            });
-
-          sponsorText.css({
-            fontSize : 16
-          });
+          createText(zooAd, sponsorDiv, sponsorFormat, sponsorText);
           break;
         }
 
+        case "Image" : {
+          createImage(zooAd, sponsorDiv, sponsorFormat, sponsorText, origW, origH);
+          break;
+        }
+
+        case "Both" : {
+          createImage(zooAd, sponsorDiv, sponsorFormat, sponsorText, origW, origH);
+          createText(zooAd, sponsorDiv, sponsorFormat, sponsorText);
+        }
+        
         default: {
-          var adText = $('<p/>', {
-                text : "Dank Memes"
-              })
-              .appendTo(zooAd);
-
-            var adTextSrc = $('<p/>', {
-                text : "Wildheart Wildlife Foundation"
-              })
-              .appendTo(zooAd);
-
-          var adImage = $('<img/>', {
-              src : "https://s-media-cache-ak0.pinimg.com/236x/eb/5c/78/eb5c78657282a7c7715939aac4553dcb.jpg"
-            })
-            .width(origW)
-            .height(origH - 75)
-            .appendTo(zooAd);
             break;
         }
       }
