@@ -19,11 +19,7 @@
     return parentUrl;
   }
 
-  function pieceLink (piece) {
-    if (!piece.link) return false
-    if ($.isArray(piece.link)) return piece.link[Math.floor(Math.random() * piece.link.length)]
-    return piece.link
-  }
+
 
   var artAdder = {
     replacedCount : '',
