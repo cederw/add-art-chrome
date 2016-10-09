@@ -135,80 +135,88 @@
 
       var category = 'Poaching';
       var type = 'Informative Facts';
+      var sponsorsName;
       $.ajax({
-        url : 'https://22c08ace.ngrok.io/api/getData?category=' + category + '&type=' +  type,
-        type : 'get',
-        success : function (result){
-          var adObject = result[0][0];
-          console.log(adObject);
-          var zooAd = $("<div/>")
-            .addClass("adContainer")
-            .css({
-              width: origW,
-              //height: origH,
-              cursor: "pointer",
-              border: "1px rgba(0,0,0,0.70) solid",
-              "border-radius" : "0.25rem"
-            })
-            .click(function() {
-              window.open(adObject.textSrc, "_blank");
-            });
+        url: 'https://22c08ace.ngrok.io/api/getSponsor',
+        type: 'get',
+        success : function(rst) {
+          sponsorsName = rst[0][0].sponsorsName;
+          $.ajax({
+            url : 'https://22c08ace.ngrok.io/api/getData?category=' + category + '&type=' +  type,
+            type : 'get',
+            success : function (result){
+              var adObject = result[0][0];
+              console.log(adObject);
+              var zooAd = $("<div/>")
+                .addClass("adContainer")
+                .css({
+                  width: origW,
+                  //height: origH,
+                  cursor: "pointer",
+                  border: "1px rgba(0,0,0,0.70) solid",
+                  "border-radius" : "0.25rem"
+                })
+                .click(function() {
+                  window.open(adObject.textSrc, "_blank");
+                });
 
-          var sponsorDiv = $("<div/>").css({
-              "padding-right" : "0.75em"
-            });
+              var sponsorDiv = $("<div/>").css({
+                  "padding-right" : "0.75em"
+                });
 
-          var sponsorFormat = $('<p/>')
-            .css({
-              color: "rgba(0,0,0,0.30)",
-              "margin-top": 18,
-              "margin-bottom" : 7
-            });
+              var sponsorFormat = $('<p/>')
+                .css({
+                  color: "rgba(0,0,0,0.30)",
+                  "margin-top": 18,
+                  "margin-bottom" : 7
+                });
 
-          var sponsorText = $("<p/>", {
-              text: "Microsoft"
-            }).css({
-                color: "rgba(0,0,0,0.50)",
-                "margin-bottom" : 18
-            });
+              var sponsorText = $("<p/>", {
+                  text: sponsorsName
+                }).css({
+                    color: "rgba(0,0,0,0.50)",
+                    "margin-bottom" : 18
+                });
 
-          var adType = "Both";
-          console.log(adType);
-          switch(adType) {
-            case "Basic Text" : {
-              createBasicText(zooAd, sponsorDiv, sponsorFormat, sponsorText, adObject);
-              break;
+              var adType = "Both";
+              console.log(adType);
+              switch(adType) {
+                case "Basic Text" : {
+                  createBasicText(zooAd, sponsorDiv, sponsorFormat, sponsorText, adObject);
+                  break;
+                }
+
+                case "Text" : {
+                  createText(zooAd, sponsorDiv, sponsorFormat, sponsorText, adObject);
+                  break;
+                }
+
+                case "Image" : {
+                  createImage(zooAd, sponsorDiv, sponsorFormat, sponsorText, origW, origH, adObject);
+                  break;
+                }
+
+                case "Both" : {
+                  createImage(zooAd, sponsorDiv, sponsorFormat, sponsorText, origW, origH, adObject);
+                  createText(zooAd, sponsorDiv, sponsorFormat, sponsorText, adObject);
+                }
+                
+                default: {
+                    break;
+                }
+              }
+              
+              sponsorFormat.appendTo(sponsorDiv);
+              sponsorText.appendTo(sponsorDiv);
+              sponsorDiv.appendTo(zooAd)
+
+              $wrap.append(zooAd);
+              $(elem.parentElement).append($wrap);
+              $(elem).remove();
+
+              return true;
             }
-
-            case "Text" : {
-              createText(zooAd, sponsorDiv, sponsorFormat, sponsorText, adObject);
-              break;
-            }
-
-            case "Image" : {
-              createImage(zooAd, sponsorDiv, sponsorFormat, sponsorText, origW, origH, adObject);
-              break;
-            }
-
-            case "Both" : {
-              createImage(zooAd, sponsorDiv, sponsorFormat, sponsorText, origW, origH, adObject);
-              createText(zooAd, sponsorDiv, sponsorFormat, sponsorText, adObject);
-            }
-            
-            default: {
-                break;
-            }
-          }
-          
-          sponsorFormat.appendTo(sponsorDiv);
-          sponsorText.appendTo(sponsorDiv);
-          sponsorDiv.appendTo(zooAd)
-
-          $wrap.append(zooAd);
-          $(elem.parentElement).append($wrap);
-          $(elem).remove();
-
-          return true;
+          });
         }
       });
     },
